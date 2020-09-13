@@ -1,9 +1,11 @@
 <template>
   <div>
+    <search></search>
     <panel title="Browse">
-      <router-link to="/browse/create" class="btn btn-success mr-2 w-100 mb-3"
-        >Create Instruction Guide</router-link
-      >
+      <router-link
+        to="/browse/create"
+        class="btn btn-success mr-2 w-100 mb-3"
+      >Create Instruction Guide</router-link>
       <div class="row">
         <div
           class="col-12 col-md-6 col-lg-4"
@@ -21,13 +23,16 @@
             <b-card-text>
               <small>
                 <p class="text-muted p-0 m-0">
-                  <b>Auhtor:</b> {{ instructionGuide.author }}
+                  <b>Auhtor:</b>
+                  {{ instructionGuide.author }}
                 </p>
                 <p class="text-muted p-0 m-0">
-                  <b>Category:</b> {{ instructionGuide.category }}
+                  <b>Category:</b>
+                  {{ instructionGuide.category }}
                 </p>
                 <p class="text-muted p-0 m-0">
-                  <b>Equipment:</b> {{ instructionGuide.equipment }}
+                  <b>Equipment:</b>
+                  {{ instructionGuide.equipment }}
                 </p>
               </small>
             </b-card-text>
@@ -35,8 +40,7 @@
             <router-link
               :to="'/browse/' + instructionGuide.id"
               class="mr-2 w-100 btn btn-primary"
-              >View Instructions</router-link
-            >
+            >View Instructions</router-link>
           </b-card>
         </div>
       </div>
@@ -45,25 +49,38 @@
 </template>
 
 <script>
-import InstructionGuidesService from "@/services/InstructionGuidesService"
-import Panel from "@/components/Panel"
+import InstructionGuidesService from "@/services/InstructionGuidesService";
+import Panel from "@/components/Panel";
+import Search from "@/components/Search.vue";
 export default {
   name: "Browse",
   methods: {},
   components: {
     Panel,
+    Search,
   },
   data() {
     return {
       instructionGuides: null,
-    }
+    };
   },
-  async mounted() {
-    this.instructionGuides = (
-      await InstructionGuidesService.getAllInstructionGuides()
-    ).data
+  watch: {
+    "$route.query.search": {
+      immediate: true,
+      async handler(value) {
+        this.instructionGuides = (
+          await InstructionGuidesService.getInstructionGuides(value)
+        ).data;
+      },
+    },
   },
-}
+
+  // async mounted() {
+  //   this.instructionGuides = (
+  //     await InstructionGuidesService.getAllInstructionGuides()
+  //   ).data;
+  // },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

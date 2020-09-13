@@ -11,13 +11,23 @@ module.exports = (app) => {
 
   app.post("/login", AuthenticationController.login)
 
-  app.get(
-    "/instructionguides",
-    InstructionGuideController.getAllInstructionGuides
-  )
+  // app.get(
+  //   "/instructionguides",
+  //   InstructionGuideController.getAllInstructionGuides
+  // )
+
+  app.get('/instructionguides', InstructionGuideController.getInstructionGuides)
 
   app.post(
     "/instructionguides",
     InstructionGuideController.postInstructionGuides
+  )
+  app.get(
+    "/instructionguides/:instructionGuideId",
+    InstructionGuideController.getInstructionGuideById
+  )
+  app.put(
+    "/instructionguides/:instructionGuideId",
+    InstructionGuideController.putInstructionGuideById
   )
 }

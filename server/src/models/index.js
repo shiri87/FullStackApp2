@@ -26,8 +26,9 @@ fs
     db[model.name] = model //Sets the model name. This save the model in db under a property[model.name] in this case User. eg db.User = model
   })
 
-  db.sequelize = sequelize // This will allow us to access the sequelize object if we use this module
-  db.Sequelize = Sequelize // This will allow us to access the Sequelize class if we use this module
+db.sequelize = sequelize // This will allow us to access the sequelize object if we use this module
+db.Sequelize = Sequelize // This will allow us to access the Sequelize class if we use this module
 
 //Exports
 module.exports = db
+module.exports.Op = Sequelize.Op

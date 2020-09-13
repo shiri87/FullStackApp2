@@ -5,6 +5,8 @@ import Register from "../components/Register.vue"
 import Browse from "../components/Browse.vue"
 import Login from "../components/Login.vue"
 import CreateInstructionGuide from "../components/CreateInstructionGuide.vue"
+import ViewInstructionGuide from "../components/ViewInstructionGuide.vue"
+import EditInstructionGuide from "../components/EditInstructionGuide.vue"
 
 Vue.use(VueRouter)
 
@@ -36,6 +38,16 @@ const routes = [
     path: "/browse/create",
     name: "CreateInstructionGuide",
     component: CreateInstructionGuide,
+  },
+  {
+    path: "/browse/:instructionGuideId",
+    name: "viewInstructionGuide",
+    component: ViewInstructionGuide,
+  },
+  {
+    path: "/browse/:instructionGuideId/edit",
+    name: "editInstructionGuide",
+    component: EditInstructionGuide,
   },
 ]
 

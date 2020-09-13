@@ -36,9 +36,10 @@
                 "
                 aria-describedby="title-feedback"
               ></b-form-input>
-              <b-form-invalid-feedback
-                id="title-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="title-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
             <b-form-group
               id="author-group"
@@ -59,9 +60,10 @@
                 "
                 aria-describedby="author-feedback"
               ></b-form-input>
-              <b-form-invalid-feedback
-                id="author-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="author-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
             <b-form-group
               id="category-group"
@@ -82,9 +84,10 @@
                 "
                 aria-describedby="category-feedback"
               ></b-form-input>
-              <b-form-invalid-feedback
-                id="category-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="category-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
             <b-form-group
               id="image-group"
@@ -105,9 +108,10 @@
                 "
                 aria-describedby="image-feedback"
               ></b-form-input>
-              <b-form-invalid-feedback
-                id="image-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="image-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
             <b-form-group
               id="youtubeId-group"
@@ -128,9 +132,10 @@
                 "
                 aria-describedby="youtubeId-feedback"
               ></b-form-input>
-              <b-form-invalid-feedback
-                id="youtubeId-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="youtubeId-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
           </div>
           <!--Right Col-->
@@ -154,9 +159,10 @@
                 "
                 aria-describedby="equipment-feedback"
               ></b-form-textarea>
-              <b-form-invalid-feedback
-                id="equipment-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="equipment-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
             <b-form-group
               id="instructions-group"
@@ -177,13 +183,16 @@
                 "
                 aria-describedby="instructions-feedback"
               ></b-form-textarea>
-              <b-form-invalid-feedback
-                id="instructions-feedback"
-              >This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="instructions-feedback"
+                >This is a required field and must be at least 3
+                characters.</b-form-invalid-feedback
+              >
             </b-form-group>
           </div>
           <div class="col-12">
-            <b-button @click="create" class="w-100" variant="primary">Submit</b-button>
+            <b-button @click="save" class="w-100" variant="primary"
+              >Submit</b-button
+            >
           </div>
         </div>
       </b-form>
@@ -193,15 +202,15 @@
 
 <script>
 // Get and Post Services
-import InstructionGuidesService from "@/services/InstructionGuidesService";
+import InstructionGuidesService from "@/services/InstructionGuidesService"
 // Panel Component
-import Panel from "@/components/Panel";
+import Panel from "@/components/Panel"
 // Validation module
-import { validationMixin } from "vuelidate";
-import { required, minLength } from "vuelidate/lib/validators";
+import { validationMixin } from "vuelidate"
+import { required, minLength } from "vuelidate/lib/validators"
 
 export default {
-  name: "CreateInstructionGuide",
+  name: "EditInstructionGuide",
   components: {
     Panel,
   },
@@ -216,7 +225,7 @@ export default {
         equipment: null,
         instructions: null,
       },
-    };
+    }
   },
   // Validation Schema
   mixins: [validationMixin],
@@ -253,27 +262,40 @@ export default {
     },
   },
   methods: {
-    async create() {
+    async save() {
       // Validiaton Check
-      this.$v.instructionGuide.$touch();
+      console.log("test")
+      this.$v.instructionGuide.$touch()
       if (this.$v.instructionGuide.$anyError) {
-        return;
+        return
       }
 
       // Posts data
       try {
-        await InstructionGuidesService.postInstructionGuides(
+        await InstructionGuidesService.putInstructionGuide(
+          this.$store.state.route.params.instructionGuideId,
           this.instructionGuide
-        );
+        )
         this.$router.push({
           name: "browse",
-        });
+          params: {
+            instructionGuideId: this.$store.state.route.params
+              .instructionGuideId,
+          },
+        })
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
   },
-};
+  async mounted() {
+    const instructionGuideId = this.$store.state.route.params.instructionGuideId
+
+    this.instructionGuide = (
+      await InstructionGuidesService.getInstructionGuideById(instructionGuideId)
+    ).data
+  },
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

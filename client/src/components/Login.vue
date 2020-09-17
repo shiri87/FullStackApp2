@@ -5,27 +5,14 @@
         <!--Login Bootstrap Card-->
         <b-card class="text-center shadow-lg bg-light mt-5">
           <h4 slot="header" class="text-primary m-0">Login</h4>
-          <b-form-input
-            type="email"
-            name="email"
-            placeholder="email"
-            v-model="email"
-            class="mb-3"
-          ></b-form-input>
-          <b-form-input
-            type="password"
-            name="password"
-            placeholder="password"
-            v-model="password"
-          ></b-form-input>
+          <b-form-input type="email" name="email" placeholder="email" v-model="email" class="mb-3"></b-form-input>
+          <b-form-input type="password" name="password" placeholder="password" v-model="password"></b-form-input>
           <!-- Errors display div-->
-          <b-card-text v-html="error" class="error mt-3"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit.</b-card-text
-          >
-          <b-button variant="primary" class="w-100" @click="login"
-            >Login</b-button
-          >
+          <b-card-text v-html="error" class="error mt-3">
+            Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit.
+          </b-card-text>
+          <b-button variant="primary" class="w-100" @click="login">Login</b-button>
         </b-card>
         <!-- /Login Bootstrap Card-->
       </div>
@@ -34,7 +21,7 @@
 </template>
 
 <script>
-import AuthenticationService from "@/services/AuthenticationService"
+import AuthenticationService from "@/services/AuthenticationService";
 export default {
   name: "Login",
   data() {
@@ -42,7 +29,7 @@ export default {
       email: "test@test.com",
       password: "password",
       error: null,
-    }
+    };
   },
   methods: {
     async login() {
@@ -50,16 +37,17 @@ export default {
         const response = await AuthenticationService.login({
           email: this.email,
           password: this.password,
-        })
-        this.$store.dispatch("setToken", response.data.token)
-        this.$store.dispatch("setUser", response.data.user)
+        });
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$router.push({ name: "browse" });
       } catch (error) {
-        console.log(error)
-        this.error = error.response.data.error
+        console.log(error);
+        this.error = error.response.data.error;
       }
     },
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

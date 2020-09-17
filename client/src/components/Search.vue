@@ -8,6 +8,7 @@
 
 <script>
 import Panel from "@/components/Panel.vue";
+import _ from "lodash";
 export default {
   name: "Search",
   components: { Panel },
@@ -15,7 +16,7 @@ export default {
     return { search: "" };
   },
   watch: {
-    search(value) {
+    search: _.debounce(async function (value) {
       //current route
       const route = { name: "browse" };
       if (this.search !== "") {
@@ -24,7 +25,7 @@ export default {
         };
       }
       this.$router.push(route);
-    },
+    }, 500),
     //addrass bar --> search bar
     "$route.query.search": {
       immediate: true,
